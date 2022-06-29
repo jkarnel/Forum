@@ -14,6 +14,7 @@ namespace Forum.Core.Entities
         public DateTimeOffset CreatedOn { get; set; }
         public DateTimeOffset LastModifiedOn { get; set; }
 
+        public string AuthorId { get; set; }
         public User Author { get; set; }
         public ICollection<Reply> Replies { get; set; }
 
