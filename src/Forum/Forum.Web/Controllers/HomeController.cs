@@ -13,19 +13,14 @@ namespace Forum.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ForumDbContext _dbContext;
 
-        public HomeController(ILogger<HomeController> logger, ForumDbContext dbContext)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _dbContext = dbContext;
         }
 
         public IActionResult Index()
         {
-            _dbContext.Users.Add(new Core.Entities.User() { Id = Guid.NewGuid().ToString(), Email = "test@email.com", UserName = "testUser" });
-            _dbContext.SaveChanges();
-
             return View();
         }
 

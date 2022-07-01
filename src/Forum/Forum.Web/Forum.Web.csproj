@@ -5,17 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Account\" />
     <Folder Include="Models\Post\" />
-    <Folder Include="Views\Account\" />
     <Folder Include="Views\Post\" />
   </ItemGroup>
 
   <ItemGroup>
+  	<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.26" />
   	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.4">
   		<PrivateAssets>all</PrivateAssets>
   		<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
   	</PackageReference>
+  	<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
   </ItemGroup>
 	
   <ItemGroup>
