@@ -35,6 +35,8 @@ namespace Forum.Web
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ForumDbContext>();
 
+            services.AddApplicationServices();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
@@ -67,7 +69,7 @@ namespace Forum.Web
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Post}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

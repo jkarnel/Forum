@@ -1,4 +1,6 @@
 ﻿using Forum.Data;
+using Forum.Services;
+using Forum.Services.Abstract;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +17,14 @@ namespace Forum.Web.ServiceCollection
             dbContext.Database.Migrate();
 
             return app;
+        }
+
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+        {
+            services.AddTransient<IPostService, PostService>();
+            services.AddTransient<IReplyService, ReplyService>();
+
+            return services;
         }
     }
 }
