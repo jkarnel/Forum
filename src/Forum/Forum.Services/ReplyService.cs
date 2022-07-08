@@ -44,7 +44,7 @@ namespace Forum.Services
                     CreatedOn = DateTime.UtcNow
                 };
 
-                await _dbContext.Replies.AddAsync(newReply);
+                await _dbContext.Replies.AddAsync(newReply).ConfigureAwait(false);
 
                 result = newReply;
             }
@@ -57,7 +57,7 @@ namespace Forum.Services
                 result = replyToChange;
             }
             
-            await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             return result;
         }
@@ -68,6 +68,16 @@ namespace Forum.Services
         public Reply GetReplyById(int replyId)
         {
             return _dbContext.Replies.Where(x => x.Id == replyId).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// <see cref="IReplyService.DeleteReplyAsync(int)"/>
+        /// </summary>
+        public async Task DeleteReplyAsync(int replyId)
+        {
+            Reply replyToDelete = GetReplyById(replyId);
+            _dbContext.Replies.Remove(replyToDelete);
+            await _dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
     }
 }

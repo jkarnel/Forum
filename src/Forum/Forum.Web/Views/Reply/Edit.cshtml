@@ -1,0 +1,31 @@
+﻿@model Forum.Web.Models.Reply.ReplyInputViewModel
+@{
+    ViewData["Title"] = "Edit Reply";
+}
+
+<div class="container">
+    <div class="tt-wrapper-inner">
+        <br />
+        <h1 class="tt-title-border">
+            @ViewData["Title"]
+        </h1>
+        <form class="form-default form-create-topic" asp-area="" asp-controller="Reply" asp-action="Edit">
+            <input asp-for="PostId" value="@Model.PostId" hidden />
+            <div class="form-group">
+                <textarea id="customTextArea" asp-for="Text" class="form-control"></textarea>
+                <span asp-validation-for="Text" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-auto ml-md-auto">
+                    <input type="submit" value="Edit" class="btn btn-secondary" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

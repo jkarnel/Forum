@@ -23,6 +23,12 @@ namespace Forum.Web.Controllers
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
+        [HttpGet]
+        public IActionResult Create(int postId)
+        {
+            return View(new ReplyInputViewModel() { PostId = postId });
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(ReplyInputViewModel input)
         {
@@ -33,51 +39,61 @@ namespace Forum.Web.Controllers
                 AuthorId = User.FindFirstValue(ClaimTypes.NameIdentifier)
             });
 
-            return RedirectToAction("Index", "Post");
+            return RedirectToAction("Details", "Post", new { id = input.PostId });
         }
         
         [HttpGet]
-        public IActionResult Edit(int replyId)
+        public IActionResult Edit(int id)
         {
             string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Reply replyToEdit = _replyService.GetReplyById(replyId);
-            if(replyToEdit == null)
-            {
-                //return error that reply was not found
-            }
-            if(replyToEdit.AuthorId != currentUserId)
-            {
-                //return error that user don`t have rights to edit this reply
-            }
+            Reply replyToEdit = _replyService.GetReplyById(id);
+            if (replyToEdit == null)
+                return NotFound();
+
+            if (replyToEdit.AuthorId != currentUserId)
+                return Unauthorized();
 
             return this.View(new ReplyInputViewModel()
             {
-                Id = replyId,
+                Id = id,
                 PostId = replyToEdit.PostId,
                 Text = replyToEdit.Description
             });
         }
 
         [HttpPost]
-        public IActionResult Edit(ReplyInputViewModel replyInputModel)
+        public async Task<IActionResult> Edit(ReplyInputViewModel replyInputModel)
         {
             string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             Reply replyToEdit = _replyService.GetReplyById(replyInputModel.Id);
             if (replyToEdit == null)
-            {
-                //return error that reply was not found
-            }
-            if (replyToEdit.AuthorId != currentUserId)
-            {
-                //return error that user don`t have rights to edit this reply
-            }
+                return NotFound();
 
-            _replyService.SaveReplyAsync(new ReplyDTO
+            if (replyToEdit.AuthorId != currentUserId)
+                return Unauthorized();
+
+            await _replyService.SaveReplyAsync(new ReplyDTO
             {
+                Id = replyInputModel.Id,
                 Description = replyInputModel.Text
             });
 
-            return RedirectToAction("View", "Post", new {postId = replyInputModel.PostId });
+            return RedirectToAction("Details", "Post", new { id = replyInputModel.PostId });
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var replyToDelete = _replyService.GetReplyById(id);
+            if (replyToDelete == null)
+                return NotFound();
+
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (replyToDelete.AuthorId != currentUserId)
+                return Unauthorized();
+
+            await _replyService.DeleteReplyAsync(id);
+
+            return RedirectToAction("Details", "Post", new { id = replyToDelete.PostId });
         }
     }
 }

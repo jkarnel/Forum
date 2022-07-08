@@ -1,0 +1,52 @@
+﻿@using Forum.Web.Models.Post
+@model PostInputViewModel
+@{
+    ViewData["Title"] = "Create new post";
+}
+
+<div class="container">
+    <div class="tt-wrapper-inner">
+        <br />
+        <h1 class="tt-title-border">
+            @ViewData["Title"]
+        </h1>
+        <form class="form-default form-create-topic" asp-action="Create">
+            <div asp-validation-summary="All"></div>
+            <div class="form-group">
+                <label asp-for="Title">Post Title</label>
+                <div class="tt-value-wrapper">
+                    <input asp-for="Title" 
+                           type="text" 
+                           class="form-control" 
+                           id="inputTopicTitle" 
+                           placeholder="Subject of your post" 
+                           onkeyup="changeRemainingLength()" />
+                    <span id="remainingLength" class="tt-value-input">@PostInputViewModel.PostTitleMaxLength</span>
+                    <span asp-validation-for="Title"></span>
+                </div>
+            </div>
+            <div class="pt-editor">
+                <h6 class="pt-title">Post Description</h6>
+                <div class="form-group">
+                    <textarea id="customTextArea" class="form-control" asp-for="Description"></textarea>
+                    <span asp-validation-for="Description"></span>
+                </div>
+                <div class="row">
+                    <div class="col-auto ml-md-auto">
+                        <button type="submit" class="btn btn-secondary btn-width-lg">Create Post</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function changeRemainingLength() {
+            var value = $('#inputTopicTitle').val();
+            $('#remainingLength').html(@PostInputViewModel.PostTitleMaxLength - value.length);
+        }
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}

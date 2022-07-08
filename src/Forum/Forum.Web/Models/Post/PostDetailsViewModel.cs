@@ -11,8 +11,10 @@ namespace Forum.Web.Models.Post
 
         public string Description { get; set; }
 
+        public string AuthorId { get; set; }
         public string AuthorName { get; set; }
+        public string CreatedOn { get; set; }
 
-        public List<ReplyViewModel> Replies { get; set; }
+        public IEnumerable<ReplyViewModel> Replies { get; set; }
     }
 }

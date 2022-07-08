@@ -1,8 +1,11 @@
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace Forum.Services.Tests
+namespace Forum.Web.Tests
 {
-    public class Tests
+    public class ReplyControllerTest
     {
         [SetUp]
         public void Setup()

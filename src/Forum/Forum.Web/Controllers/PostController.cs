@@ -2,6 +2,7 @@
 using Forum.Services.Abstract;
 using Forum.Services.Abstract.DTOs;
 using Forum.Web.Models.Post;
+using Forum.Web.Models.Reply;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -29,9 +30,9 @@ namespace Forum.Web.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult Index(string searchStatement = null, int page = 0)
+        public IActionResult Index(int page = 1)
         {
-            IEnumerable<Post> postsList = _postService.GetPosts(searchStatement, page, DefaultPostsCountOnPage);
+             IEnumerable<Post> postsList = _postService.GetPosts(page, DefaultPostsCountOnPage);
 
             var postsViewModelList = postsList.Select(x => new PostItemViewModel()
             {
@@ -39,14 +40,15 @@ namespace Forum.Web.Controllers
                 Title = x.Title,
                 AuthorId = x.AuthorId,
                 AuthorName = x.Author.UserName,
-                RepliesCount = x.Replies.Count()
+                RepliesCount = x.Replies.Count(),
+                LastModifiedOn = x.LastModifiedOn.ToString()
             }).AsEnumerable();
 
             return View(new PostsAllViewModel()
             {
                 Posts = postsViewModelList,
                 PageIndex = page,
-                TotalPages = postsViewModelList.Count(),
+                TotalPages = (int)Math.Ceiling(postsViewModelList.Count() / (decimal)DefaultPostsCountOnPage),
             });
         }
 
@@ -74,22 +76,20 @@ namespace Forum.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(int postId)
+        public IActionResult Edit(int id)
         {
             var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var postToEdit = _postService.GetPostById(postId);
+            var postToEdit = _postService.GetPostById(id);
+            
             if (postToEdit == null)
-            {
-                //return error that post was not found
-            }
+                return NotFound();
+
             if(postToEdit.AuthorId != currentUserId)
-            {
-                //return error that user don`t have rights to edit this post
-            }
+                return Unauthorized();       
 
             return this.View(new PostInputViewModel()
             {
-                Id = postId,
+                Id = id,
                 Title = postToEdit.Title,
                 Description = postToEdit.Description
             });
@@ -103,18 +103,15 @@ namespace Forum.Web.Controllers
 
             var postToEdit = _postService.GetPostById(postInputModel.Id);
             if (postToEdit == null)
-            {
-                //return error that post was not found
-            }
+                return NotFound();
 
             var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (postToEdit.AuthorId != currentUserId)
-            {
-                //return error that user don`t have rights to edit this post
-            }
+                return Unauthorized();
 
             await _postService.SavePostAsync(new PostDTO
             {
+                Id = postInputModel.Id,
                 Title = postInputModel.Title,
                 Description = postInputModel.Description
             });
@@ -124,20 +121,45 @@ namespace Forum.Web.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult View(int postId)
+        public IActionResult Details(int id)
         {
-            var postToEdit = _postService.GetPostById(postId);
-            if (postToEdit == null)
-            {
-                //return error that post was not found
-            }
+            var postToView = _postService.GetPostById(id);
+            if (postToView == null)
+                return NotFound();
 
-            return this.View(new PostInputViewModel()
+            return this.View(new PostDetailsViewModel()
             {
-                Id = postId,
-                Title = postToEdit.Title,
-                Description = postToEdit.Description
+                Id = id,
+                Title = postToView.Title,
+                Description = postToView.Description,
+                Replies = postToView.Replies?.Select(x => new ReplyViewModel()
+                {
+                    Id = x.Id,
+                    Text = x.Description,
+                    AuthorId = x.AuthorId,
+                    AuthorName = x.Author.UserName,
+                    CreatedOn = x.CreatedOn.ToLocalTime().ToString()
+                }),
+                AuthorName = postToView.Author.UserName,
+                AuthorId = postToView.AuthorId,
+                CreatedOn = postToView.CreatedOn.LocalDateTime.ToString()
             });
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var postToDelete = _postService.GetPostById(id);
+            if (postToDelete == null)
+                return NotFound();
+            
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (postToDelete.AuthorId != currentUserId)
+                return Unauthorized();
+            
+
+            await _postService.DeletePostAsync(id);
+
+            return RedirectToAction("Index");
         }
     }
 }

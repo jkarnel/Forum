@@ -2,6 +2,7 @@
 using Forum.Data;
 using Forum.Services.Abstract;
 using Forum.Services.Abstract.DTOs;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,9 +43,9 @@ namespace Forum.Services
                     Description = post.Description,
                     AuthorId = post.AuthorId,
                     CreatedOn = DateTime.UtcNow
-            };
+                };
 
-                await _dbContext.Posts.AddAsync(newPost);
+                await _dbContext.Posts.AddAsync(newPost).ConfigureAwait(false);
 
                 result = newPost;
             }
@@ -71,26 +72,35 @@ namespace Forum.Services
         /// </summary>
         public Post GetPostById(int postId)
         {
-            return _dbContext.Posts.Where(x => x.Id == postId).FirstOrDefault();
+            return _dbContext.Posts.Where(x => x.Id == postId)
+                .Include(x => x.Author)
+                .Include(x => x.Replies)
+                .FirstOrDefault();
         }
 
         /// <summary>
         /// <see cref="IPostService.GetPosts(string, int, int)"/>
         /// </summary>
-        public IEnumerable<Post> GetPosts(string searchStatement, int pageIndex, int countOnPage)
+        public IEnumerable<Post> GetPosts(int pageIndex, int countOnPage)
         {
             IQueryable<Post> postsQuery = _dbContext.Posts;
-            if (searchStatement != null)
-            {
-                //TODO: apply full text search feature  
-                postsQuery = postsQuery
-                    .Where(x => x.Title.Contains(searchStatement));
-            }
 
-            postsQuery = postsQuery.Skip(pageIndex * countOnPage)
-                                   .Take(countOnPage);
+            postsQuery = postsQuery.Skip((pageIndex - 1) * countOnPage)
+                                   .Take(countOnPage)
+                                   .Include(x => x.Author)
+                                   .Include(x => x.Replies);
 
             return postsQuery.AsEnumerable();
+        }
+
+        /// <summary>
+        /// <see cref="IPostService.DeletePostAsync(int)"/>
+        /// </summary>
+        public async Task DeletePostAsync(int postId)
+        {
+            Post postToDelete = GetPostById(postId);
+            _dbContext.Posts.Remove(postToDelete);
+            await _dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
     }
 }

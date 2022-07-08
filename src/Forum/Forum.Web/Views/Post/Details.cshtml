@@ -1,0 +1,123 @@
+﻿@using Forum.Web.Models.Post
+@using System.Security.Claims
+@model PostDetailsViewModel
+@{
+    ViewData["Title"] = Model.Title;
+}
+<br />
+<div class="container">
+    <div class="tt-single-topic-list" style="word-break: break-word;">
+        <div class="tt-item">
+            <div class="tt-single-topic">
+                <div class="tt-item-header">
+                    <div class="tt-item-info info-top">
+                        <div class="tt-info-time">@Model.AuthorName</div>
+                        <div class="tt-info-time">@Model.CreatedOn</div>
+                    </div>
+                    <h3 class="tt-item-title">@Model.Title</h3>
+                </div>
+                <div class="tt-item-description">
+                    <p>@Html.Raw(Model.Description)</p>
+                </div>
+                <div class="tt-item-info info-bottom">
+                    <div class="col-separator"></div>
+                    @if (this.User.Identity.IsAuthenticated)
+                    {
+                        @if (this.Model.AuthorId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                        {
+                            <a asp-area="" 
+                           asp-controller="Post" 
+                           asp-action="Edit" 
+                           asp-route-id="@Model.Id" 
+                           class="tt-icon-btn" 
+                           style="color: #666f74">
+                                <i class="fas fa-pen"></i>
+                            </a>
+                            <a asp-area="" 
+                           asp-controller="Post" 
+                           asp-action="Delete" 
+                           asp-route-id="@Model.Id" 
+                           class="tt-icon-btn" 
+                           style="color: #666f74">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        }
+                        <a asp-area="" 
+                           asp-controller="Reply" 
+                           asp-action="Create"
+                           asp-route-postId="@Model.Id"
+                           class="tt-icon-btn tt-hover-02 tt-small-indent">
+                            <i class="tt-icon"><svg><use xlink:href="#icon-reply"></use></svg></i>
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+        <div>
+            <h5>Replies</h5>
+        </div>
+        @foreach (var reply in Model.Replies)
+        {
+            <div class="tt-item tt-wrapper-success">
+                <div class="tt-single-topic">
+                    <div class="tt-item-header pt-noborder">
+                        <div class="tt-item-info info-top">
+                            <div class="tt-avatar-title">@reply.AuthorName</div>
+                            <div class="tt-info-time">
+                                <i class="tt-icon fas fa-calendar-alt"></i>@reply.CreatedOn
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tt-item-description">
+                        <p>@Html.Raw(reply.Text)</p>
+                    </div>
+                    <div class="tt-item-info info-bottom">
+                        @if(User.Identity.IsAuthenticated)
+                        {
+                            <div class="col-separator"></div>
+                            @if (reply.AuthorId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                            {
+                                <a asp-area="" 
+                                   asp-controller="Reply" 
+                                   asp-action="Edit" 
+                                   asp-route-id="@reply.Id" 
+                                   class="tt-icon-btn" 
+                                   style="color: #666f74">
+                                    <i class="fas fa-pen"></i>
+                                </a>
+                                <a asp-area="" 
+                                   asp-controller="Reply" 
+                                   asp-action="Delete" 
+                                   asp-route-id="@reply.Id"
+                                   asp-
+                                   class="tt-icon-btn" 
+                                   style="color: #666f74">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    @if (Model.Replies.Any())
+    {
+        <div class="tt-wrapper-inner">
+            <h4 class="tt-title-separator"><span>You’ve reached the end of replies</span></h4>
+        </div>
+    }
+    else
+    {
+        <div class="tt-wrapper-inner">
+            <h4 class="tt-title-separator"><span>There are no replies in this post</span></h4>
+        </div>
+    }
+    <div id="reply-box">
+        <vc:create-reply post-id="@Model.Id" parent-id="null"></vc:create-reply>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

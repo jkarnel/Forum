@@ -4,10 +4,9 @@ namespace Forum.Web.Models.Post
 {
     public class PostInputViewModel
     {
-        private const int PostTitleMaxLength = 128;
-        private const int PostTitleMinLength = 4;
-
-        private const int PostDescriptionMaxLength = 32768;
+        public const int PostTitleMaxLength = 128;
+        public const int PostTitleMinLength = 4;
+        public const int PostDescriptionMaxLength = 32768;
 
         private const string PostTitleLengthErrorMessage = "The {0} must be at least {2} and at max {1} characters long.";
 

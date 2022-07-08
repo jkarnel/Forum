@@ -1,0 +1,24 @@
+$default_color:                                     #2172cd;
+$default_color2:                                    #182730;
+$default_color3:                                    #f2f4f6;
+$default_color_title:								#303344;
+$default_color_title_hover:							$default_color;
+$default_text:										#303344;
+$border:                                            #666f74;
+$border02:                                          #e2e7ea;
+
+@import "variables";
+@import "_pagination.scss";
+@import "_form";
+@import "_typography";
+@import "_header";
+@import "_header_objects";
+@import "_pageContent";
+@import "_topic_list_item";
+@import "_single-topic";
+@import "_modal";
+@import "_popup_settings";
+@import "_default_tabs";
+@import "_editor";
+@import "_layout-tab.scss";
+@import "_layout404.scss";

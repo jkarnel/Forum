@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Post\" />
+    <Content Remove="compilerconfig.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -13,6 +13,7 @@
   		<PrivateAssets>all</PrivateAssets>
   		<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
   	</PackageReference>
+	<PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
   </ItemGroup>
 	
   <ItemGroup>
@@ -20,6 +21,10 @@
     <ProjectReference Include="..\Forum.Data\Forum.Data.csproj" />
     <ProjectReference Include="..\Forum.Services.Abstract\Forum.Services.Abstract.csproj" />
     <ProjectReference Include="..\Forum.Services\Forum.Services.csproj" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <None Include="compilerconfig.json" />
   </ItemGroup>
 
 </Project>

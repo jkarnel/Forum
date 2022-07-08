@@ -2,7 +2,7 @@ using NUnit.Framework;
 
 namespace Forum.Web.Tests
 {
-    public class Tests
+    public class AccountControllerTest
     {
         [SetUp]
         public void Setup()

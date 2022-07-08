@@ -15,12 +15,11 @@ namespace Forum.Services.Abstract
         /// <summary>
         /// Gets all posts available posts from repository according to search and paging parameters
         /// </summary>
-        /// <param name="searchStatement">Search phrase to seach it in Post.Title property</param>
         /// <param name="pageIndex">Index of current page</param>
         /// <param name="count">Posts count on the page</param>
         /// <returns>List of posts</returns>
         /// <remarks>Search feature is implemented in a very simple way, instead full text search should be used</remarks>
-        IEnumerable<Post> GetPosts(string searchStatement, int pageIndex, int count);
+        IEnumerable<Post> GetPosts(int pageIndex, int count);
 
         /// <summary>
         /// Get post entity by id
@@ -35,5 +34,12 @@ namespace Forum.Services.Abstract
         /// <param name="post">Post DTO</param>
         /// <returns>Created or changed post</returns>
         Task<Post> SavePostAsync(PostDTO post);
+
+        /// <summary>
+        /// Deletes post by id
+        /// </summary>
+        /// <param name="postId">Post id</param>
+        /// <returns></returns>
+        Task DeletePostAsync(int postId);
     }
 }

@@ -25,5 +25,12 @@ namespace Forum.Services.Abstract
         /// <param name="reply">Reply DTO</param>
         /// <returns>Created or changed reply</returns>
         Task<Reply> SaveReplyAsync(ReplyDTO reply);
+
+        /// <summary>
+        /// Deletes reply by id
+        /// </summary>
+        /// <param name="postId">Reply id</param>
+        /// <returns></returns>
+        Task DeleteReplyAsync(int replyId);
     }
 }

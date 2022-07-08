@@ -3,23 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Web", "Forum.Web\Forum.Web.csproj", "{46FDFAB7-4836-4A89-9D59-B5908B288EE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Forum.Web", "Forum.Web\Forum.Web.csproj", "{46FDFAB7-4836-4A89-9D59-B5908B288EE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Core", "Forum.Core\Forum.Core.csproj", "{B3549F5C-A653-4645-8630-BB21F0275E03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Forum.Core", "Forum.Core\Forum.Core.csproj", "{B3549F5C-A653-4645-8630-BB21F0275E03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Data", "Forum.Data\Forum.Data.csproj", "{507C0E88-AC42-4098-B43F-8542EB9BE1AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Forum.Data", "Forum.Data\Forum.Data.csproj", "{507C0E88-AC42-4098-B43F-8542EB9BE1AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Services.Abstract", "Forum.Services.Abstract\Forum.Services.Abstract.csproj", "{4940D93D-CF35-4558-989B-7D1DB82FC869}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Forum.Services.Abstract", "Forum.Services.Abstract\Forum.Services.Abstract.csproj", "{4940D93D-CF35-4558-989B-7D1DB82FC869}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Services", "Forum.Services\Forum.Services.csproj", "{81B459F1-31AF-4FBD-B6E1-61C64748821C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Forum.Services", "Forum.Services\Forum.Services.csproj", "{81B459F1-31AF-4FBD-B6E1-61C64748821C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Utilities", "Forum.Utilities\Forum.Utilities.csproj", "{1D97127F-0B85-4BFC-800E-219BE48BBE03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Forum.Utilities", "Forum.Utilities\Forum.Utilities.csproj", "{1D97127F-0B85-4BFC-800E-219BE48BBE03}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DB838412-0FD8-48AA-8F74-4CD19029DDE1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Services.Tests", "Forum.Services.Tests\Forum.Services.Tests.csproj", "{ADDB3C38-441D-42F7-B046-5C3E34A48985}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Forum.Services.UnitTests", "Forum.Services.Tests\Forum.Services.UnitTests.csproj", "{ADDB3C38-441D-42F7-B046-5C3E34A48985}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Web.Tests", "Forum.Web.Tests\Forum.Web.Tests.csproj", "{0AE972FE-32B5-4BB9-B926-2295E6E683F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Forum.Web.IntegrationTests", "Forum.Web.Tests\Forum.Web.IntegrationTests.csproj", "{0AE972FE-32B5-4BB9-B926-2295E6E683F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Tests.Utilities", "Forum.Tests.Utilities\Forum.Tests.Utilities.csproj", "{DDAD5D48-786E-4D64-897D-1459206CE708}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{0AE972FE-32B5-4BB9-B926-2295E6E683F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0AE972FE-32B5-4BB9-B926-2295E6E683F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AE972FE-32B5-4BB9-B926-2295E6E683F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDAD5D48-786E-4D64-897D-1459206CE708}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDAD5D48-786E-4D64-897D-1459206CE708}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDAD5D48-786E-4D64-897D-1459206CE708}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDAD5D48-786E-4D64-897D-1459206CE708}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +72,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{ADDB3C38-441D-42F7-B046-5C3E34A48985} = {DB838412-0FD8-48AA-8F74-4CD19029DDE1}
 		{0AE972FE-32B5-4BB9-B926-2295E6E683F1} = {DB838412-0FD8-48AA-8F74-4CD19029DDE1}
+		{DDAD5D48-786E-4D64-897D-1459206CE708} = {DB838412-0FD8-48AA-8F74-4CD19029DDE1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AE588E09-7DB0-46A2-8CA9-365164F28134}
