@@ -10,7 +10,7 @@ Solution contains next projects:
 5. Forum.Utilities - common utility classes
 6. Forum.Web - MVC web project
 
-#Build and run
+### Build and run
 1. Asp .net core 3.1 should be installed
 2. Visual studio (2017+)
 3. Build main Forum.Web project
